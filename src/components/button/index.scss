@@ -1,0 +1,18 @@
+.button {
+  padding: 0.8rem 1.6rem;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    transform: translateY(-0.2rem);
+  }
+  &--primary {
+    background: var(--primary);
+    color: white;
+  }
+}
