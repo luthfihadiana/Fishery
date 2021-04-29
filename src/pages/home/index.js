@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./index.scss";
 import Button from "../../components/button";
+import Input from "../../components/input";
 import { readAllData } from "../../api/list";
 
 import Fish from "../../assets/img/fish.jpg";
@@ -20,6 +21,7 @@ export default function Home() {
     fetchData();
   }, [setLoading, setListAllCommodity]);
   useEffect(() => {
+    setLoading(true);
     if (searchName !== "") {
       const dataCommodity = [...listAllCommodity];
       setListCommodity(
@@ -32,7 +34,8 @@ export default function Home() {
     } else {
       setListCommodity([...listAllCommodity]);
     }
-  }, [listAllCommodity, setListCommodity, searchName]);
+    setLoading(false);
+  }, [listAllCommodity, setListCommodity, searchName, setLoading]);
   return (
     <div className="home">
       <div className="header">
@@ -48,7 +51,7 @@ export default function Home() {
       </div>
       <div className="home__content">
         <div className="search-box">
-          <input
+          <Input
             type="text"
             value={searchName}
             onChange={e => setSearchName(e.target.value)}
