@@ -1,0 +1,48 @@
+:root {
+  --primary: #4BC6A0;
+  --primaryFont: 'Asap', sans-serif;
+}
+
+* {
+  font-family: var(--primaryFont);
+}
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.input,
+.taginput .taginput-container.is-focusable,
+.textarea,
+.select select {
+  font-family: var(--primaryFont);
+}
+h1 {
+  font-size: 4rem;
+  color: var(--fontColor);
+  font-family: var(--primaryFont);
+}
+h2 {
+  font-size: 2.4rem;
+  color: var(--fontColor);
+  font-family: var(--primaryFont);
+}
+p {
+  font-size: 1.4rem;
+  color: var(--fontColor);
+  font-family: var(--primaryFont);
+}
