@@ -3,7 +3,7 @@ import "./index.scss";
 export default function LoadingIndicator() {
   return (
     <div className="loading-indicator">
-      <div class="loading-indicator--spinner">
+      <div className="loading-indicator--spinner">
         <figure>
           <img src={Logo} alt="Icon Loading" />
           <svg viewBox="0 0 100 100">
