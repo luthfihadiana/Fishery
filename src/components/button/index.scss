@@ -8,11 +8,20 @@
   &:focus {
     outline: none;
   }
-  &:hover {
+  &:hover:not(:disabled) {
     transform: translateY(-0.2rem);
+  }
+  &:disabled {
+    background: #cdcdcd;
+    cursor: not-allowed;
   }
   &--primary {
     background: var(--primary);
     color: white;
+    &.button--outline {
+      border: 1px solid var(--primary);
+      background-color: white;
+      color: var(--primary);
+    }
   }
 }

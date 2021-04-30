@@ -3,6 +3,7 @@ import "./index.scss";
 import Button from "../../components/button";
 import Input from "../../components/input";
 import { readAllData } from "../../api/list";
+import { useHistory } from "react-router-dom";
 
 import Fish from "../../assets/img/fish.jpg";
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
   const [listAllCommodity, setListAllCommodity] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -21,7 +23,6 @@ export default function Home() {
     fetchData();
   }, [setLoading, setListAllCommodity]);
   useEffect(() => {
-    setLoading(true);
     if (searchName !== "") {
       const dataCommodity = [...listAllCommodity];
       setListCommodity(
@@ -34,10 +35,12 @@ export default function Home() {
     } else {
       setListCommodity([...listAllCommodity]);
     }
-    setLoading(false);
   }, [listAllCommodity, setListCommodity, searchName, setLoading]);
+  const goToPage = url => {
+    history.push(url);
+  };
   return (
-    <div className="home">
+    <>
       <div className="header">
         <div className="header__section">
           <h2>
@@ -46,7 +49,9 @@ export default function Home() {
           </h2>
         </div>
         <div className="header__section">
-          <Button var="primary">Tambah Komoditas</Button>
+          <Button var="primary" onClick={() => goToPage("/tambah-komoditas")}>
+            Tambah Komoditas
+          </Button>
         </div>
       </div>
       <div className="home__content">
@@ -91,6 +96,6 @@ export default function Home() {
             )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
