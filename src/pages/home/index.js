@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import "./index.scss";
 import Button from "../../components/button";
 import Input from "../../components/input";
+import PageHeader from "../../components/pageHeader";
+import LoadingIndicator from "../../components/loadingIndicator";
 import { readAllData } from "../../api/list";
+import { useHistory } from "react-router-dom";
 
 import Fish from "../../assets/img/fish.jpg";
 export default function Home() {
@@ -10,6 +13,7 @@ export default function Home() {
   const [listAllCommodity, setListAllCommodity] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -21,7 +25,6 @@ export default function Home() {
     fetchData();
   }, [setLoading, setListAllCommodity]);
   useEffect(() => {
-    setLoading(true);
     if (searchName !== "") {
       const dataCommodity = [...listAllCommodity];
       setListCommodity(
@@ -34,21 +37,25 @@ export default function Home() {
     } else {
       setListCommodity([...listAllCommodity]);
     }
-    setLoading(false);
   }, [listAllCommodity, setListCommodity, searchName, setLoading]);
+  const goToPage = url => {
+    history.push(url);
+  };
   return (
-    <div className="home">
-      <div className="header">
-        <div className="header__section">
+    <>
+      <PageHeader
+        left={
           <h2>
             {(searchName && `Pencarian untuk '${searchName}'`) ||
               "List Komoditas"}
           </h2>
-        </div>
-        <div className="header__section">
-          <Button var="primary">Tambah Komoditas</Button>
-        </div>
-      </div>
+        }
+        right={
+          <Button var="primary" onClick={() => goToPage("/tambah-komoditas")}>
+            Tambah Komoditas
+          </Button>
+        }
+      />
       <div className="home__content">
         <div className="search-box">
           <Input
@@ -64,7 +71,7 @@ export default function Home() {
             ((listCommodity.length <= 0 || loading) && "center") || ""
           }`}
         >
-          {(loading && <p>Memuat data .....</p>) ||
+          {(loading && <LoadingIndicator />) ||
             (listCommodity.length > 0 &&
               listCommodity.map((el, idx) => (
                 <div className="commodity" key={el.uuid + idx}>
@@ -91,6 +98,6 @@ export default function Home() {
             )}
         </div>
       </div>
-    </div>
+    </>
   );
 }

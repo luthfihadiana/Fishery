@@ -1,13 +1,4 @@
-.home {
-  height: 100%;
-}
-.header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1.6rem;
-}
+@import "../../styles/utils/breakpoints";
 
 .search-box {
   width: 100%;
@@ -23,6 +14,12 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 1.6rem;
   height: 100%;
+  @include max-media(tablet) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include max-media(mobile) {
+    grid-template-columns: repeat(2, 1fr);
+  }
   &.center {
     display: flex;
     justify-content: center;

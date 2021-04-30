@@ -1,0 +1,19 @@
+@import "../../styles/utils/breakpoints";
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.6rem;
+  @include max-media(mobile) {
+    flex-direction: column-reverse;
+    .header__section:first-child {
+      align-self: center;
+    }
+    .header__section:last-child {
+      align-self: flex-end;
+      margin-bottom: 1.6rem;
+    }
+  }
+}
