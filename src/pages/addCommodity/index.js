@@ -39,7 +39,9 @@ export default function AddCommodity() {
     if (rest.length === 1) {
       oldData[rest[0]] = e.target.value;
     } else {
-      if (rest[0] === "dropdown") oldData[rest[1]] = e.value;
+      if (rest[0] === "dropdown") {
+        oldData[rest[1]] = { ...e };
+      }
     }
     setFormData(oldData);
   };
@@ -51,28 +53,28 @@ export default function AddCommodity() {
   };
   const submitData = () => {
     setIsSubmit(true);
-    const [area_provinsi, area_kota] = formData.location.split(",");
+    const [area_provinsi, area_kota] = formData.location.value.split(",");
     const { komoditas, size, price } = formData;
     addData({
       komoditas,
       area_provinsi,
       area_kota,
-      size,
+      size: size.value,
       price,
       uuid: uuidv4(),
       timestamp: Date.now()
     }).then(() => {
       setIsSubmit(false);
       handlerShowConfirmModal();
-      setFormData({ ...DEFAULT_FORM_VALUE });
+      setFormData({ ...DEFAULT_FORM_VALUE, location: null, size: null });
     });
   };
   const checkValidData = () => {
     return (
       formData.komoditas !== "" &&
       formData.size !== "" &&
-      formData.price !== "" &&
-      formData.location !== ""
+      formData.price &&
+      formData.location
     );
   };
   return (
@@ -104,6 +106,7 @@ export default function AddCommodity() {
               <Input
                 type="dropdown"
                 options={locationData}
+                value={formData.location}
                 placeholder="Pilih Lokasi Komoditas"
                 onChange={e => changeData(e, "dropdown", "location")}
               />
@@ -155,7 +158,7 @@ export default function AddCommodity() {
           <Button var="primary" onClick={() => closeShowConfirmModal()}>
             Tambah Lagi
           </Button>
-          <Button var="primary" outline={() => history.push("/")}>
+          <Button var="primary" outline onClick={() => history.push("/")}>
             Liat Komoditas
           </Button>
         </div>
