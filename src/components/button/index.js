@@ -4,8 +4,8 @@ export default function Button(props) {
     <button
       {...props}
       className={`button ${props.var ? `button--${props.var}` : ""} ${
-        props.className
-      }`}
+        props.outline ? `button--outline` : ""
+      } ${props.className}`}
     >
       {props.children}
     </button>

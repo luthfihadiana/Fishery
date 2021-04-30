@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import Input from "../../components/input";
 import Button from "../../components/button";
+import Modal from "../../components/modal";
 import { readAllData as readDataSize } from "../../api/size";
 import { readAllData as readDataLocation } from "../../api/location";
 import { addData } from "../../api/list";
@@ -14,6 +15,8 @@ export default function AddCommodity() {
   const [locationData, setLocationData] = useState([]);
   const [sizeData, setSizeData] = useState([]);
   const [formData, setFormData] = useState({ ...DEFAULT_FORM_VALUE });
+  const [isSubmit, setIsSubmit] = useState(false);
+  const refConfirmModal = useRef(null);
   const history = useHistory();
 
   useEffect(() => {
@@ -39,7 +42,14 @@ export default function AddCommodity() {
     }
     setFormData(oldData);
   };
+  const handlerShowConfirmModal = () => {
+    refConfirmModal.current.showModal();
+  };
+  const closeShowConfirmModal = () => {
+    refConfirmModal.current.hideModal();
+  };
   const submitData = () => {
+    setIsSubmit(true);
     const [area_provinsi, area_kota] = formData.location.split(",");
     const { komoditas, size, price } = formData;
     addData({
@@ -50,8 +60,11 @@ export default function AddCommodity() {
       price,
       uuid: uuidv4(),
       timestamp: Date.now()
-    }).then(() => alert("Berhasil menambahkan data"));
-    history.push("/");
+    }).then(() => {
+      setIsSubmit(false);
+      handlerShowConfirmModal();
+      setFormData({ ...DEFAULT_FORM_VALUE });
+    });
   };
   const checkValidData = () => {
     return (
@@ -63,7 +76,16 @@ export default function AddCommodity() {
   };
   return (
     <>
-      <h2>Tambah Komoditas</h2>
+      <div className="header">
+        <div className="header__section">
+          <h2>Tambah Komoditas</h2>
+        </div>
+        <div className="header__section">
+          <Button var="primary" onClick={() => history.push("/")}>
+            Liat List Komoditas
+          </Button>
+        </div>
+      </div>
       <div className="form">
         <div className="form__section">
           <div className="form__field-group">
@@ -121,13 +143,24 @@ export default function AddCommodity() {
           <Button
             var="primary"
             className="form__submit"
-            disabled={!checkValidData()}
+            disabled={!checkValidData() || isSubmit}
             onClick={() => submitData()}
           >
             Tambahkan Komoditas
           </Button>
         </div>
       </div>
+      <Modal title="Data Berhasil Diinput" ref={refConfirmModal}>
+        <p>Yay!! Data komoditas berhasil ditambahkan </p>
+        <div className="button-confirm">
+          <Button var="primary" onClick={() => closeShowConfirmModal()}>
+            Tambah Lagi
+          </Button>
+          <Button var="primary" outline={() => history.push("/")}>
+            Liat Komoditas
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 }
