@@ -7,3 +7,7 @@ const store = new SteinStore(
 export const readAllData = params => {
   return store.read("", { ...params });
 };
+
+export const addData = data => {
+  return store.append("", [{ ...data }]);
+};

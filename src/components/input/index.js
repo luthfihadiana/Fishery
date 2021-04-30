@@ -32,6 +32,7 @@ export default function Input(props) {
             primary: "#4bc6a0"
           }
         })}
+        onChange={props.onChange}
       />
     );
   return <input {...props} className={`input ${props.className}`} />;
