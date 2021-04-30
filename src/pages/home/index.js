@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./index.scss";
 import Button from "../../components/button";
 import Input from "../../components/input";
+import PageHeader from "../../components/pageHeader";
+import LoadingIndicator from "../../components/loadingIndicator";
 import { readAllData } from "../../api/list";
 import { useHistory } from "react-router-dom";
 
@@ -41,19 +43,19 @@ export default function Home() {
   };
   return (
     <>
-      <div className="header">
-        <div className="header__section">
+      <PageHeader
+        left={
           <h2>
             {(searchName && `Pencarian untuk '${searchName}'`) ||
               "List Komoditas"}
           </h2>
-        </div>
-        <div className="header__section">
+        }
+        right={
           <Button var="primary" onClick={() => goToPage("/tambah-komoditas")}>
             Tambah Komoditas
           </Button>
-        </div>
-      </div>
+        }
+      />
       <div className="home__content">
         <div className="search-box">
           <Input
@@ -69,7 +71,7 @@ export default function Home() {
             ((listCommodity.length <= 0 || loading) && "center") || ""
           }`}
         >
-          {(loading && <p>Memuat data .....</p>) ||
+          {(loading && <LoadingIndicator />) ||
             (listCommodity.length > 0 &&
               listCommodity.map((el, idx) => (
                 <div className="commodity" key={el.uuid + idx}>

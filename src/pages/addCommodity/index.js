@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Input from "../../components/input";
 import Button from "../../components/button";
 import Modal from "../../components/modal";
+import PageHeader from "../../components/pageHeader";
 import { readAllData as readDataSize } from "../../api/size";
 import { readAllData as readDataLocation } from "../../api/location";
 import { addData } from "../../api/list";
@@ -76,16 +77,14 @@ export default function AddCommodity() {
   };
   return (
     <>
-      <div className="header">
-        <div className="header__section">
-          <h2>Tambah Komoditas</h2>
-        </div>
-        <div className="header__section">
+      <PageHeader
+        right={
           <Button var="primary" onClick={() => history.push("/")}>
             Liat List Komoditas
           </Button>
-        </div>
-      </div>
+        }
+        left={<h2>Tambah Komoditas</h2>}
+      />
       <div className="form">
         <div className="form__section">
           <div className="form__field-group">

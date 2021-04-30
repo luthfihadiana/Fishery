@@ -1,10 +1,4 @@
-.header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1.6rem;
-}
+@import "../../styles/utils/breakpoints";
 .form {
   flex: 1;
   display: flex;
@@ -29,6 +23,13 @@
       }
       &:last-child {
         margin-top: 1.6rem;
+      }
+      @include max-media(mobile) {
+        display: grid;
+        row-gap: 1.6rem;
+        & > *:not(:last-child) {
+          margin-right: 0;
+        }
       }
     }
   }
