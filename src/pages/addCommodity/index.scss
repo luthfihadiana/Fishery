@@ -32,7 +32,8 @@
   &__input-container {
     display: flex;
     align-items: center;
-    .input {
+    .input,
+    .input-dropdown {
       width: 100%;
     }
     & > *:not(:last-child) {

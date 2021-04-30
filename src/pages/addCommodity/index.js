@@ -1,8 +1,33 @@
-import "./index.scss";
+import { useState, useEffect } from "react";
 
 import Input from "../../components/input";
 import Button from "../../components/button";
+import { readAllData as readDataSize } from "../../api/size";
+import { readAllData as readDataLocation } from "../../api/location";
+import "./index.scss";
+
+const options = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" }
+];
 export default function AddCommodity() {
+  const [locationData, setLocationData] = useState([]);
+  const [sizeData, setSizeData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const resLocation = await readDataLocation();
+      setLocationData([
+        ...resLocation.map(el => ({
+          value: { ...el },
+          label: `${el.city}, ${el.province}`
+        }))
+      ]);
+      const resSize = await readDataSize();
+      setSizeData([...resSize.map(el => ({ value: el.size, label: el.size }))]);
+    };
+    fetchData();
+  }, [setLocationData, setSizeData]);
   return (
     <>
       <h2>Tambah Komoditas</h2>
@@ -17,12 +42,21 @@ export default function AddCommodity() {
           <div className="form__field-group">
             <div className="form__field">
               <label className="form__label">Lokasi</label>
-              <Input type="text" />
+              <Input
+                type="dropdown"
+                options={locationData}
+                placeholder="Pilih Lokasi Komoditas"
+              />
             </div>
             <div className="form__field">
               <label className="form__label">Ukuran</label>
               <div className="form__input-container">
-                <Input type="text" />
+                <Input
+                  type="dropdown"
+                  className="input-dropdown"
+                  options={sizeData}
+                  placeholder="Pilih Ukuran Komoditas"
+                />
                 <span className="form__currency">Cm</span>
               </div>
             </div>
@@ -39,7 +73,7 @@ export default function AddCommodity() {
         </div>
         <div className="form__section form__submit-container">
           <Button var="primary" className="form__submit">
-            Buat Komoditas
+            Tambahkan Komoditas
           </Button>
         </div>
       </form>
