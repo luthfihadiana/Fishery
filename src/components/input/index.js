@@ -32,7 +32,6 @@ export default function Input(props) {
             primary: "#4bc6a0"
           }
         })}
-        value={props.value}
         onChange={props.onChange}
       />
     );
